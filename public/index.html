@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <form novalidate>
+        <label>Name: <input placeholder="name" name="name"></label>
+        <label>Age: <input placeholder="age" name="age"></label>
+        <label>Id: <input placeholder="id" name="id"></label>
+        <label>Image: <input placeholder="imageUrl" name="image"></label>
+        <label>Snippet: <input placeholder="snippet" name="snippet"></label>
+        <button id="add-btn">Add Phone</button>
+
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody id="phones">
+
+        </tbody>
+    </table>
+
+
+
+    <script>
+        let serverUrl = 'http://localhost:3201/phones';
+        //read all
+        fetch(serverUrl).then(phonesData => {
+            phonesData.json().then(phonesTable);
+        });
+
+        function phonesTable(phones) {
+            let html = " ";
+            for (let i = 0; i < phones.length; i++) {
+                html += `<tr>
+                    <td> ${phones[i].name} </td> 
+                    <td> ${phones[i].age} </td> 
+                    <td> ${phones[i].id} </td>
+                    <td> <button class="del-btn" value=${phones[i].id}> Delete </button> </td> `
+            }
+            document.getElementById("phones").innerHTML = html;
+            const delArr = document.getElementsByClassName("del-btn");
+
+        for (let i = 0; i < delArr.length; i++) {
+            delArr[i].addEventListener("click", function (e) {
+                e.preventDefault();
+                 fetch(serverUrl, {
+                    method: "delete",
+                    body: e.target.value,
+                })
+            })
+        }
+        }
+        // add
+        document.getElementById('add-btn').addEventListener("click", function (e) {
+            e.preventDefault();
+            const phone = {
+                name: this.form.name.value,
+                age: this.form.age.value,
+                id: this.form.id.value,
+                imageUrl: this.form.image.value,
+                snippet: this.form.snippet.value,
+            }
+            fetch(serverUrl, {
+                method: "post",
+                body: JSON.stringify(phone),
+                headers: {'Content-Type': 'application/json'},
+            })
+        })
+
+
+        
+
+    </script>
+</body>
+
+</html>

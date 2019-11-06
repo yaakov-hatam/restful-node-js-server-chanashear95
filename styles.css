@@ -1,0 +1,33 @@
+
+
+body{
+    font-size: 1.2rem;
+    background-color: lightskyblue;
+
+}
+
+table, td{
+    border: 1px solid black;
+    margin: 20px;
+    background: white;
+}
+
+button{
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10%;
+}
+
+.del-btn {
+    background: red;
+}
+
+#add-btn{
+    background: green;
+}
+
+.btn-update{
+    background: blue;
+}
